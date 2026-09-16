@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3adbce3808d3b4c9c285dd33df8ddf, type: 3}
+  m_Name: SMG
+  m_EditorClassIdentifier: Assembly-CSharp::MultiShotWeaponSO
+  viewGun: {fileID: 6810826342680241524, guid: 0b981673e3286e04787b9cb64d638b20, type: 3}
+  bulletData: {fileID: 11400000, guid: 1b809beea76586642bd3be31a3fb87fd, type: 2}
+  fireRate: 20
+  isAutomatic: 0
+  bulletCount: 3
