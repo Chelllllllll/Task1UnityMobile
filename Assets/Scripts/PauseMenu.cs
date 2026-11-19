@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject hud;
+    [SerializeField] private Button pauseButton;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button loadButton;
     [SerializeField] private Button resumeButton;
@@ -18,10 +20,12 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        pauseButton.onClick.AddListener(Pause);
         saveButton.onClick.AddListener(OnSaveClicked);
         loadButton.onClick.AddListener(OnLoadClicked);
         resumeButton.onClick.AddListener(Resume);
         pausePanel.SetActive(false);
+        hud.SetActive(true);
     }
 
     private void Update()
@@ -31,7 +35,7 @@ public class PauseMenu : MonoBehaviour
             return;
         }
 
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (!isPaused)
             {
@@ -50,28 +54,29 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        if (isPaused)
+        {
+            return;
+        }
+
         isPaused = true;
+        hud.SetActive(false);
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
 
         gun.enabled = false;
         look.enabled = false;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     public void Resume()
     {
         isPaused = false;
         pausePanel.SetActive(false);
+        hud.SetActive(true);
         Time.timeScale = 1f;
 
         gun.enabled = true;
         look.enabled = true;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     public void ReturnFromLoadMenu()
@@ -111,8 +116,6 @@ public class PauseMenu : MonoBehaviour
 
         SaveSystem.SaveScreenshot(slot, png);
         GameManager.Instance.SaveToSlot(slot);
-
-        Debug.Log("Saved slot " + slot + " to " + SaveSystem.SaveFolder);
 
         pausePanel.SetActive(true);
         isSaving = false;
